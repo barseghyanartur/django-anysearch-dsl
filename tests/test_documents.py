@@ -7,7 +7,7 @@ if django.VERSION < (4, 0):
     from django.utils.translation import ugettext_lazy as _
 else:
     from django.utils.translation import gettext_lazy as _
-from elasticsearch_dsl import GeoPoint, InnerDoc
+from anysearch.search_dsl import GeoPoint, InnerDoc
 from mock import patch, Mock
 
 from django_elasticsearch_dsl import fields

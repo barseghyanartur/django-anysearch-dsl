@@ -5,8 +5,8 @@ from functools import partial
 
 from django import VERSION as DJANGO_VERSION
 from django.db import models
-from elasticsearch.helpers import bulk, parallel_bulk
-from elasticsearch_dsl import Document as DSLDocument
+from anysearch.search import bulk, parallel_bulk
+from anysearch.search_dsl import Document as DSLDocument
 from six import iteritems
 
 from .exceptions import ModelFieldNotMappedError
