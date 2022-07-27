@@ -51,7 +51,7 @@ setup(
             "elasticsearch-dsl>=7.2.0<8.0.0",
         ],
         "opensearch": [
-            "opensearch",
+            "opensearch-py",
             "opensearch-dsl",
         ],
     },
