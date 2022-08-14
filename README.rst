@@ -22,6 +22,7 @@ You can view the full documentation at https://django-anysearch-dsl.readthedocs.
 
 Manifest
 --------
+
 This project is a fork of django-elasticsearch-dsl_ with a single ultimate
 purpose of supporting both Elasticsearch and OpenSearch. Compatibility is
 achieved through anysearch_ which does necessary import replacements depending
@@ -35,13 +36,13 @@ package does to support both 2.x and 3.x branches of Python).
 - ``anysearch`` is a required dependency.
 
 The plan is to stay in sync with the django-elasticsearch-dsl_, so if you're
-missing a feature or have a bugfix, please propose it the the upstream.
+missing a feature or have a bugfix, please propose it in the upstream.
 
-Versioning will be kept in sync up to the ``build`` (in terms of Semantic
-versioning ``major.minor[.build[.revision]``). So, version 7.2.2.x of this
+Versioning is kept in sync up to the ``build`` (in terms of Semantic
+versioning ``major.minor[.build[.revision]``), so version 7.2.2.x of this
 library would represent the version 7.2.2 of the upstream.
 
-This library does have the same namespace as ``django-elasticsearch-dsl``, so
+This library does have the same namespace as ``django-elasticsearch-dsl``, thus
 you can't have both installed.
 
 Due to complexities, no support for older versions of Elasticsearch (< 7.x)
