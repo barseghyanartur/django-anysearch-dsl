@@ -48,11 +48,6 @@ jobs:
           --health-retries=10
 
     steps:
-      - name: Install and Run Elasticsearch
-        uses: elastic/elastic-github-actions/elasticsearch@master
-        with:
-          stack-version: ${{ matrix.es-version }}
-
       - uses: actions/checkout@v2
 
       - name: Install Python ${{ matrix.python-version }}
