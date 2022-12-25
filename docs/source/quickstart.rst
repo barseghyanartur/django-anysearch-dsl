@@ -7,7 +7,7 @@ Install and configure
 
 Install Django Elasticsearch DSL::
 
-    pip install django-elasticsearch-dsl
+    pip install django-anysearch-dsl
 
 
 Then add ``django_elasticsearch_dsl`` to the INSTALLED_APPS

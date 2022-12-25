@@ -1,23 +1,52 @@
-========================
-Django Elasticsearch DSL
-========================
+====================
+Django AnySearch DSL
+====================
 
-.. image:: https://github.com/django-es/django-elasticsearch-dsl/actions/workflows/ci.yml/badge.svg
-    :target: https://github.com/django-es/django-elasticsearch-dsl/actions/workflows/ci.yml
-.. image:: https://codecov.io/gh/django-es/django-elasticsearch-dsl/coverage.svg?branch=master
-    :target: https://codecov.io/gh/django-es/django-elasticsearch-dsl
-.. image:: https://badge.fury.io/py/django-elasticsearch-dsl.svg
-    :target: https://pypi.python.org/pypi/django-elasticsearch-dsl
-.. image:: https://readthedocs.org/projects/django-elasticsearch-dsl/badge/?version=latest&style=flat
-    :target: https://django-elasticsearch-dsl.readthedocs.io/en/latest/
+.. image:: https://github.com/barseghyanartur/django-anysearch-dsl/actions/workflows/ci.yml/badge.svg
+    :target: https://github.com/barseghyanartur/django-anysearch-dsl/actions/workflows/ci.yml
+.. image:: https://codecov.io/gh/barseghyanartur/django-anysearch-dsl/coverage.svg?branch=master
+    :target: https://codecov.io/gh/barseghyanartur/django-anysearch-dsl
+.. image:: https://badge.fury.io/py/django-anysearch-dsl.svg
+    :target: https://pypi.python.org/pypi/django-anysearch-dsl
+.. image:: https://readthedocs.org/projects/django-anysearch-dsl/badge/?version=latest&style=flat
+    :target: https://django-anysearch-dsl.readthedocs.io/en/latest/
 
-Django Elasticsearch DSL is a package that allows indexing of django models in elasticsearch.
-It is built as a thin wrapper around elasticsearch-dsl-py_
-so you can use all the features developed by the elasticsearch-dsl-py team.
+Django AnySearch DSL is a package that allows indexing of Django models in Elasticsearch/OpenSearch.
+It is built as a thin wrapper around elasticsearch-dsl-py_ (and OpenSearch alternative).
 
-You can view the full documentation at https://django-elasticsearch-dsl.readthedocs.io
+You can view the full documentation at https://django-anysearch-dsl.readthedocs.io
 
 .. _elasticsearch-dsl-py: https://github.com/elastic/elasticsearch-dsl-py
+.. _django-elasticsearch-dsl: https://github.com/django-es/django-elasticsearch-dsl
+.. _anysearch: https://github.com/barseghyanartur/anysearch
+
+Manifest
+--------
+
+This project is a fork of django-elasticsearch-dsl_ with a single ultimate
+purpose of supporting both Elasticsearch and OpenSearch. Compatibility is
+achieved through anysearch_ which does necessary import replacements depending
+on which one (Elasticsearch or OpenSearch) is chosen (similarly to what ``six``
+package does to support both 2.x and 3.x branches of Python).
+
+- Both ``elasticsearch`` and ``elasticsearch-dsl`` are optional
+  dependencies (as well as ``opensearch-py`` and ``opensearch-dsl``) and are
+  installed when instructed (like ``pip install django-elasticsearch-dsl[elasticsearch]``
+  or ``pip install django-elasticsearch-dsl[opensearch]``).
+- ``anysearch`` is a required dependency.
+
+The plan is to stay in sync with the django-elasticsearch-dsl_, so if you're
+missing a feature or have a bugfix, please propose it in the upstream.
+
+Versioning is kept in sync up to the ``build`` (in terms of Semantic
+versioning ``major.minor[.build[.revision]``), so version 7.2.2.x of this
+library would represent the version 7.2.2 of the upstream.
+
+This library does have the same namespace as ``django-elasticsearch-dsl``, thus
+you can't have both installed.
+
+Due to complexities, no support for older versions of Elasticsearch (< 7.x)
+is provided (and will never be).
 
 Features
 --------
@@ -30,28 +59,21 @@ Features
 - Index fast using `parallel` indexing.
 - Requirements
 
-   - Django >= 1.11
-   - Python 2.7, 3.5, 3.6, 3.7, 3.8
+   - Django >= 2.2
+   - Python 3.6, 3.7, 3.8, 3.9 and 3.10
 
 **Elasticsearch Compatibility:**
-The library is compatible with all Elasticsearch versions since 5.x
-**but you have to use a matching major version:**
-
-- For Elasticsearch 7.0 and later, use the major version 7 (7.x.y) of the library.
-
-- For Elasticsearch 6.0 and later, use the major version 6 (6.x.y) of the library.
-
-- For Elasticsearch 5.0 and later, use the major version 0.5 (0.5.x) of the library.
+The library is compatible with Elasticsearch 7.x, OpenSearch 1.x and OpenSearch 2.x.
 
 .. code-block:: python
 
     # Elasticsearch 7.x
     elasticsearch-dsl>=7.0.0,<8.0.0
 
-    # Elasticsearch 6.x
-    elasticsearch-dsl>=6.0.0,<7.0.0
+    # OpenSearch 1.x
+    opensearch-dsl>=1.0,<2.0
 
-    # Elasticsearch 5.x
-    elasticsearch-dsl>=0.5.1,<6.0.0
+    # OpenSearch 2.x
+    opensearch-dsl>=2.0,<3.0
 
 .. _Search: http://elasticsearch-dsl.readthedocs.io/en/stable/search_dsl.html

@@ -5,10 +5,10 @@ from itertools import chain
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import ImproperlyConfigured
-from elasticsearch_dsl import AttrDict
+from anysearch.search_dsl import AttrDict
 from six import itervalues, iterkeys, iteritems
 
-from django_elasticsearch_dsl.exceptions import RedeclaredFieldError
+from .exceptions import RedeclaredFieldError
 from .apps import DEDConfig
 
 
