@@ -49,7 +49,8 @@ setup(
     extras_require={
         "elasticsearch": [
             "elasticsearch",
-            "elasticsearch-dsl>=7.2.0<8.0.0",
+            "elasticsearch-dsl",
+            # "elasticsearch-dsl>=7.2.0<8.0.0",
         ],
         "opensearch": [
             "opensearch-py",
@@ -67,6 +68,7 @@ setup(
         'Framework :: Django :: 3.1',
         'Framework :: Django :: 3.2',
         'Framework :: Django :: 4.0',
+        'Framework :: Django :: 4.1',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
@@ -76,5 +78,6 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
     ],
 )
