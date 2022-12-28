@@ -1,3 +1,3 @@
-from elasticsearch_dsl import VERSION
+from anysearch.search_dsl import __version__
 
-ES_MAJOR_VERSION = VERSION[0]
+ES_MAJOR_VERSION = __version__[0]
