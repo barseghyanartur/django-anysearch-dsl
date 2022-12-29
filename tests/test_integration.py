@@ -10,6 +10,7 @@ else:
     from django.utils.translation import gettext_lazy as _
 from six import StringIO
 
+from anysearch import IS_ELASTICSEARCH
 from anysearch.search.exceptions import NotFoundError
 from anysearch.search_dsl import Index as DSLIndex
 from django_elasticsearch_dsl.test import ESTestCase, is_es_online
@@ -26,6 +27,8 @@ from .documents import (
     index_settings
 )
 from .models import Car, Manufacturer, Ad, Category, Article, COUNTRIES
+
+TEXT_TYPE = 'string' if ES_MAJOR_VERSION == 2 and IS_ELASTICSEARCH else 'text'
 
 
 @unittest.skipUnless(is_es_online(), 'Elasticsearch is offline')
@@ -180,7 +183,7 @@ class IntegrationTestCase(ESTestCase, TestCase):
     def test_index_to_dict(self):
         self.maxDiff = None
         index_dict = car_index.to_dict()
-        text_type = 'string' if ES_MAJOR_VERSION == 2 else 'text'
+        text_type = TEXT_TYPE
 
         test_index = DSLIndex('test_index').settings(**index_settings)
         test_index.document(CarDocument)

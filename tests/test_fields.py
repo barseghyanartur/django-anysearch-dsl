@@ -8,6 +8,7 @@ else:
     from django.utils.translation import gettext_lazy as _
 from mock import Mock, NonCallableMock
 from six import string_types
+from anysearch import IS_ELASTICSEARCH
 
 from django_elasticsearch_dsl.exceptions import VariableLookupError
 from django_elasticsearch_dsl.fields import (BooleanField, ByteField, CompletionField, DEDField,
@@ -18,6 +19,8 @@ from django_elasticsearch_dsl.fields import (BooleanField, ByteField, Completion
                                              NestedField, ObjectField, ScaledFloatField, ShortField, TextField
                                              )
 from tests import ES_MAJOR_VERSION
+
+TEXT_TYPE = 'string' if ES_MAJOR_VERSION == 2 and IS_ELASTICSEARCH else 'text'
 
 
 class DEDFieldTestCase(TestCase):
@@ -80,7 +83,7 @@ class ObjectFieldTestCase(TestCase):
             'last_name': TextField()
         })
 
-        expected_type = 'string' if ES_MAJOR_VERSION == 2 else 'text'
+        expected_type = TEXT_TYPE
 
         self.assertEqual({
             'type': 'object',
@@ -257,7 +260,7 @@ class NestedFieldTestCase(TestCase):
             'last_name': TextField()
         })
 
-        expected_type = 'string' if ES_MAJOR_VERSION == 2 else 'text'
+        expected_type = TEXT_TYPE
 
         self.assertEqual({
             'type': 'nested',
@@ -397,7 +400,7 @@ class FileFieldTestCase(TestCase):
     def test_get_mapping(self):
         field = FileField()
 
-        expected_type = 'string' if ES_MAJOR_VERSION == 2 else 'text'
+        expected_type = TEXT_TYPE
 
         self.assertEqual({
             'type': expected_type,
@@ -424,7 +427,7 @@ class TextFieldTestCase(TestCase):
     def test_get_mapping(self):
         field = TextField()
 
-        expected_type = 'string' if ES_MAJOR_VERSION == 2 else 'text'
+        expected_type = TEXT_TYPE
 
         self.assertEqual({
             'type': expected_type,
@@ -435,7 +438,7 @@ class KeywordFieldTestCase(TestCase):
     def test_get_mapping(self):
         field = KeywordField()
 
-        if ES_MAJOR_VERSION == 2:
+        if ES_MAJOR_VERSION == 2 and IS_ELASTICSEARCH:
             self.assertEqual({
                 'type': 'string',
                 'index': 'not_analyzed',

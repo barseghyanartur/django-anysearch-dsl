@@ -21,6 +21,8 @@ from tests import ES_MAJOR_VERSION
 
 from .models import Article
 
+TEXT_TYPE = 'string' if ES_MAJOR_VERSION == 2 and IS_ELASTICSEARCH else 'text'
+
 if IS_ELASTICSEARCH:
     DSL_CONNECTIONS_SEARCH_BULK_ID = "elasticsearch_dsl.connections.Elasticsearch.bulk"
 else:
@@ -143,7 +145,7 @@ class DocTypeTestCase(TestCase):
             doc.to_field('manufacturer', Car._meta.get_field('manufacturer'))
 
     def test_mapping(self):
-        text_type = 'string' if ES_MAJOR_VERSION == 2 else 'text'
+        text_type = TEXT_TYPE
 
         self.assertEqual(
             CarDocument._doc_type.mapping.to_dict(), {
