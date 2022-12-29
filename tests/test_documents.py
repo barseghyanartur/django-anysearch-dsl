@@ -8,6 +8,7 @@ if django.VERSION < (4, 0):
     from django.utils.translation import ugettext_lazy as _
 else:
     from django.utils.translation import gettext_lazy as _
+from anysearch import IS_ELASTICSEARCH
 from anysearch.search_dsl import GeoPoint, InnerDoc
 from mock import patch, Mock
 
@@ -19,6 +20,11 @@ from django_elasticsearch_dsl.registries import registry
 from tests import ES_MAJOR_VERSION
 
 from .models import Article
+
+if IS_ELASTICSEARCH:
+    DSL_CONNECTIONS_SEARCH_BULK_ID = "elasticsearch_dsl.connections.Elasticsearch.bulk"
+else:
+    DSL_CONNECTIONS_SEARCH_BULK_ID = "opensearch_dsl.connections.OpenSearch.bulk"
 
 
 class Car(models.Model):
@@ -439,7 +445,7 @@ class DocTypeTestCase(TestCase):
     # got iterated and generate_id called.
     # If we mock the bulk in django_elasticsearch_dsl.document
     # the actual bulk will be never called and the test will fail
-    @patch('elasticsearch_dsl.connections.Elasticsearch.bulk')
+    @patch(DSL_CONNECTIONS_SEARCH_BULK_ID)
     def test_default_generate_id_is_called(self, _):
         article = Article(
             id=124594,
@@ -467,7 +473,7 @@ class DocTypeTestCase(TestCase):
             d.update(article)
             patched_method.assert_called()
 
-    @patch('elasticsearch_dsl.connections.Elasticsearch.bulk')
+    @patch(DSL_CONNECTIONS_SEARCH_BULK_ID)
     def test_custom_generate_id_is_called(self, mock_bulk):
         article = Article(
             id=54218,
@@ -497,7 +503,7 @@ class DocTypeTestCase(TestCase):
         data = json.loads(mock_bulk.call_args[1]['body'].split("\n")[0])
         assert data["index"]["_id"] == article.slug
 
-    @patch('elasticsearch_dsl.connections.Elasticsearch.bulk')
+    @patch(DSL_CONNECTIONS_SEARCH_BULK_ID)
     def test_should_index_object_is_called(self, mock_bulk):
         doc = CarDocument()
         car1 = Car()
@@ -511,7 +517,7 @@ class DocTypeTestCase(TestCase):
             self.assertEqual(mock_should_index_object.call_count, 3,
                              "should_index_object is called")
 
-    @patch('elasticsearch_dsl.connections.Elasticsearch.bulk')
+    @patch(DSL_CONNECTIONS_SEARCH_BULK_ID)
     def test_should_index_object_working_perfectly(self, mock_bulk):
         article1 = Article(slug='article1')
         article2 = Article(slug='article2')
