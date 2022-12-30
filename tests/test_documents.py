@@ -502,7 +502,10 @@ class DocTypeTestCase(TestCase):
 
         # Get the data from the elasticsearch low level API because
         # The generator get executed there.
-        data = json.loads(mock_bulk.call_args[1]['body'].split("\n")[0])
+        if IS_ELASTICSEARCH:
+            data = json.loads(mock_bulk.call_args[1]['body'].split("\n")[0])
+        else:
+            data = json.loads(mock_bulk.call_args[0][0].split("\n")[0])
         assert data["index"]["_id"] == article.slug
 
     @patch(DSL_CONNECTIONS_SEARCH_BULK_ID)
@@ -543,6 +546,9 @@ class DocTypeTestCase(TestCase):
 
         d = ArticleDocument()
         d.update([article1, article2])
-        data_body = mock_bulk.call_args[1]['body']
+        if IS_ELASTICSEARCH:
+            data_body = mock_bulk.call_args[1]['body']
+        else:
+            data_body = mock_bulk.call_args[0][0]
         self.assertTrue(article1.slug in data_body)
         self.assertTrue(article2.slug not in data_body)
