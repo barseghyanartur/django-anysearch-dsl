@@ -39,6 +39,13 @@ package does to support both 2.x and 3.x branches of Python).
 The plan is to stay in sync with the django-anysearch-dsl_, so if you're
 missing a feature or have a bugfix, please propose it in the upstream.
 
+- Submit PRs here only if they are solely related to this package and not
+  the django-elasticsearch-dsl_.
+- Do not propose code style changes or changes that contain reformatting
+  of the code (like ``black`` or ``isort`` fixes). Such things shall be
+  proposed in the django-elasticsearch-dsl_. Code changes to this package
+  are kept minimal, so that it's easier to stay in sync.
+
 Versioning is kept in sync up to the ``build`` (in terms of Semantic
 versioning ``major.minor[.build[.revision]``), so version 7.2.2.x of this
 library would represent the version 7.2.2 of the upstream.

@@ -8,7 +8,6 @@ if django.VERSION < (4, 0):
     from django.utils.translation import ugettext_lazy as _
 else:
     from django.utils.translation import gettext_lazy as _
-from anysearch import IS_ELASTICSEARCH
 from anysearch.search_dsl import GeoPoint, InnerDoc
 from mock import patch, Mock
 
@@ -20,6 +19,8 @@ from django_elasticsearch_dsl.registries import registry
 from tests import ES_MAJOR_VERSION
 
 from .models import Article
+
+from anysearch import IS_ELASTICSEARCH
 
 TEXT_TYPE = 'string' if ES_MAJOR_VERSION == 2 and IS_ELASTICSEARCH else 'text'
 

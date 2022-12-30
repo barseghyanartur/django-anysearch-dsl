@@ -8,7 +8,6 @@ else:
     from django.utils.translation import gettext_lazy as _
 from mock import Mock, NonCallableMock
 from six import string_types
-from anysearch import IS_ELASTICSEARCH
 
 from django_elasticsearch_dsl.exceptions import VariableLookupError
 from django_elasticsearch_dsl.fields import (BooleanField, ByteField, CompletionField, DEDField,
@@ -19,6 +18,8 @@ from django_elasticsearch_dsl.fields import (BooleanField, ByteField, Completion
                                              NestedField, ObjectField, ScaledFloatField, ShortField, TextField
                                              )
 from tests import ES_MAJOR_VERSION
+
+from anysearch import IS_ELASTICSEARCH
 
 TEXT_TYPE = 'string' if ES_MAJOR_VERSION == 2 and IS_ELASTICSEARCH else 'text'
 
