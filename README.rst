@@ -70,7 +70,7 @@ Features
 - Requirements
 
    - Django >= 2.2
-   - Python 3.6, 3.7, 3.8, 3.9 and 3.10
+   - Python 3.6, 3.7, 3.8, 3.9, 3.10 or 3.10.
 
 **Elasticsearch Compatibility:**
 The library is compatible with Elasticsearch 7.x, OpenSearch 1.x and OpenSearch 2.x.
