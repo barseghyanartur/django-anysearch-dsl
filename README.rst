@@ -20,6 +20,7 @@ You can view the full documentation at https://django-anysearch-dsl.readthedocs.
 .. _django-elasticsearch-dsl: https://github.com/django-es/django-elasticsearch-dsl
 .. _django-anysearch-dsl: https://github.com/django-anysearch/django-anysearch-dsl
 .. _anysearch: https://github.com/barseghyanartur/anysearch
+.. _changelog: https://github.com/django-anysearch/django-anysearch-dsl/blob/django-anysearch-dsl/CHANGELOG.rst
 
 Manifest
 --------
@@ -48,7 +49,8 @@ missing a feature or have a bugfix, please propose it in the upstream.
 
 Versioning is kept in sync up to the ``build`` (in terms of Semantic
 versioning ``major.minor[.build[.revision]``), so version 7.2.2.x of this
-library would represent the version 7.2.2 of the upstream.
+library would represent the version 7.2.2 of the upstream. All changes
+are mentioned in the changelog_.
 
 This library is a drop-in replacement, it does have the same namespace as
 ``django-elasticsearch-dsl``, thus you can't have both installed.
