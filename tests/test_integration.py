@@ -27,6 +27,10 @@ from .documents import (
 )
 from .models import Car, Manufacturer, Ad, Category, Article, COUNTRIES
 
+from anysearch import IS_ELASTICSEARCH
+
+TEXT_TYPE = 'string' if ES_MAJOR_VERSION == 2 and IS_ELASTICSEARCH else 'text'
+
 
 @unittest.skipUnless(is_es_online(), 'Elasticsearch is offline')
 class IntegrationTestCase(ESTestCase, TestCase):
@@ -180,7 +184,7 @@ class IntegrationTestCase(ESTestCase, TestCase):
     def test_index_to_dict(self):
         self.maxDiff = None
         index_dict = car_index.to_dict()
-        text_type = 'string' if ES_MAJOR_VERSION == 2 else 'text'
+        text_type = TEXT_TYPE
 
         test_index = DSLIndex('test_index').settings(**index_settings)
         test_index.document(CarDocument)

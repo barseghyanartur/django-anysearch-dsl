@@ -19,6 +19,10 @@ from django_elasticsearch_dsl.fields import (BooleanField, ByteField, Completion
                                              )
 from tests import ES_MAJOR_VERSION
 
+from anysearch import IS_ELASTICSEARCH
+
+TEXT_TYPE = 'string' if ES_MAJOR_VERSION == 2 and IS_ELASTICSEARCH else 'text'
+
 
 class DEDFieldTestCase(TestCase):
     def test_attr_to_path(self):
@@ -80,7 +84,7 @@ class ObjectFieldTestCase(TestCase):
             'last_name': TextField()
         })
 
-        expected_type = 'string' if ES_MAJOR_VERSION == 2 else 'text'
+        expected_type = TEXT_TYPE
 
         self.assertEqual({
             'type': 'object',
@@ -257,7 +261,7 @@ class NestedFieldTestCase(TestCase):
             'last_name': TextField()
         })
 
-        expected_type = 'string' if ES_MAJOR_VERSION == 2 else 'text'
+        expected_type = TEXT_TYPE
 
         self.assertEqual({
             'type': 'nested',
@@ -397,7 +401,7 @@ class FileFieldTestCase(TestCase):
     def test_get_mapping(self):
         field = FileField()
 
-        expected_type = 'string' if ES_MAJOR_VERSION == 2 else 'text'
+        expected_type = TEXT_TYPE
 
         self.assertEqual({
             'type': expected_type,
@@ -424,7 +428,7 @@ class TextFieldTestCase(TestCase):
     def test_get_mapping(self):
         field = TextField()
 
-        expected_type = 'string' if ES_MAJOR_VERSION == 2 else 'text'
+        expected_type = TEXT_TYPE
 
         self.assertEqual({
             'type': expected_type,
@@ -435,7 +439,7 @@ class KeywordFieldTestCase(TestCase):
     def test_get_mapping(self):
         field = KeywordField()
 
-        if ES_MAJOR_VERSION == 2:
+        if ES_MAJOR_VERSION == 2 and IS_ELASTICSEARCH:
             self.assertEqual({
                 'type': 'string',
                 'index': 'not_analyzed',

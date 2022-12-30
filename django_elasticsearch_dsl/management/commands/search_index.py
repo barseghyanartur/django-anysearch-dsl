@@ -1,7 +1,7 @@
 from __future__ import unicode_literals, absolute_import
 from datetime import datetime
 
-from elasticsearch_dsl import connections
+from anysearch.search_dsl import get_connection
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from six.moves import input
@@ -13,7 +13,7 @@ class Command(BaseCommand):
 
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
-        self.es_conn = connections.get_connection()
+        self.es_conn = get_connection()
 
     def add_arguments(self, parser):
         parser.add_argument(

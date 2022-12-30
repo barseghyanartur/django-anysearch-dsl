@@ -20,6 +20,15 @@ from tests import ES_MAJOR_VERSION
 
 from .models import Article
 
+from anysearch import IS_ELASTICSEARCH
+
+TEXT_TYPE = 'string' if ES_MAJOR_VERSION == 2 and IS_ELASTICSEARCH else 'text'
+
+if IS_ELASTICSEARCH:
+    DSL_CONNECTIONS_SEARCH_BULK_ID = "elasticsearch_dsl.connections.Elasticsearch.bulk"
+else:
+    DSL_CONNECTIONS_SEARCH_BULK_ID = "opensearch_dsl.connections.OpenSearch.bulk"
+
 
 class Car(models.Model):
     name = models.CharField(max_length=255)
@@ -137,7 +146,7 @@ class DocTypeTestCase(TestCase):
             doc.to_field('manufacturer', Car._meta.get_field('manufacturer'))
 
     def test_mapping(self):
-        text_type = 'string' if ES_MAJOR_VERSION == 2 else 'text'
+        text_type = TEXT_TYPE
 
         self.assertEqual(
             CarDocument._doc_type.mapping.to_dict(), {
@@ -439,7 +448,7 @@ class DocTypeTestCase(TestCase):
     # got iterated and generate_id called.
     # If we mock the bulk in django_elasticsearch_dsl.document
     # the actual bulk will be never called and the test will fail
-    @patch('elasticsearch_dsl.connections.Elasticsearch.bulk')
+    @patch(DSL_CONNECTIONS_SEARCH_BULK_ID)
     def test_default_generate_id_is_called(self, _):
         article = Article(
             id=124594,
@@ -467,7 +476,7 @@ class DocTypeTestCase(TestCase):
             d.update(article)
             patched_method.assert_called()
 
-    @patch('elasticsearch_dsl.connections.Elasticsearch.bulk')
+    @patch(DSL_CONNECTIONS_SEARCH_BULK_ID)
     def test_custom_generate_id_is_called(self, mock_bulk):
         article = Article(
             id=54218,
@@ -494,10 +503,13 @@ class DocTypeTestCase(TestCase):
 
         # Get the data from the elasticsearch low level API because
         # The generator get executed there.
-        data = json.loads(mock_bulk.call_args[1]['body'].split("\n")[0])
+        if IS_ELASTICSEARCH:
+            data = json.loads(mock_bulk.call_args[1]['body'].split("\n")[0])
+        else:
+            data = json.loads(mock_bulk.call_args[0][0].split("\n")[0])
         assert data["index"]["_id"] == article.slug
 
-    @patch('elasticsearch_dsl.connections.Elasticsearch.bulk')
+    @patch(DSL_CONNECTIONS_SEARCH_BULK_ID)
     def test_should_index_object_is_called(self, mock_bulk):
         doc = CarDocument()
         car1 = Car()
@@ -511,7 +523,7 @@ class DocTypeTestCase(TestCase):
             self.assertEqual(mock_should_index_object.call_count, 3,
                              "should_index_object is called")
 
-    @patch('elasticsearch_dsl.connections.Elasticsearch.bulk')
+    @patch(DSL_CONNECTIONS_SEARCH_BULK_ID)
     def test_should_index_object_working_perfectly(self, mock_bulk):
         article1 = Article(slug='article1')
         article2 = Article(slug='article2')
@@ -535,6 +547,9 @@ class DocTypeTestCase(TestCase):
 
         d = ArticleDocument()
         d.update([article1, article2])
-        data_body = mock_bulk.call_args[1]['body']
+        if IS_ELASTICSEARCH:
+            data_body = mock_bulk.call_args[1]['body']
+        else:
+            data_body = mock_bulk.call_args[0][0]
         self.assertTrue(article1.slug in data_body)
         self.assertTrue(article2.slug not in data_body)
