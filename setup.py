@@ -44,7 +44,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'six',
-        'anysearch>=0.1.6',
+        'anysearch>=0.2.2',
     ],
     extras_require={
         "elasticsearch": [
