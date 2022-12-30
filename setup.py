@@ -8,7 +8,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-version = '7.2.2'
+version = '7.2.2.1'
 
 if sys.argv[-1] == 'publish':
     try:
@@ -37,7 +37,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author='Sabricot',
     maintainer='Artur Barseghyan',
-    url='https://github.com/barseghyanartur/django-anysearch-dsl',
+    url='https://github.com/django-anysearch/django-anysearch-dsl',
     packages=[
         'django_elasticsearch_dsl',
     ],
