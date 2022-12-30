@@ -37,7 +37,7 @@ package does to support both 2.x and 3.x branches of Python).
   or ``pip install django-anysearch-dsl[opensearch]``).
 - ``anysearch`` is a required dependency.
 
-The plan is to stay in sync with the django-anysearch-dsl_, so if you're
+The plan is to stay in sync with the django-elasticsearch-dsl_, so if you're
 missing a feature or have a bugfix, please propose it in the upstream.
 
 - Submit PRs here only if they are solely related to this package and not
